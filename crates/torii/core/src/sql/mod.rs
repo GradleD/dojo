@@ -1268,4 +1268,10 @@ impl Sql {
         self.executor.send(flush)?;
         recv.await?
     }
+
+    pub async fn rollback(&self) -> Result<()> {
+        let (rollback, recv) = QueryMessage::rollback_recv();
+        self.executor.send(rollback)?;
+        recv.await?
+    }
 }
